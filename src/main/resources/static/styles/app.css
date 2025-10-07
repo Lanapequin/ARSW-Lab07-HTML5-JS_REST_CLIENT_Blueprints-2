@@ -1,0 +1,203 @@
+html,
+body {
+    margin: 0px;
+    height: 100vh;
+    padding: 0 8%;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+button:focus-visible {
+    outline: 2px solid #4a90e2 !important;
+    outline: -webkit-focus-ring-color auto 5px !important;
+}
+a {
+    text-decoration: none;
+}
+
+:root {
+    --background: rgba(248, 249, 250, 0.6);
+    --primary-accent: rgba(44, 123, 229, 1);
+    --secondary-accent: rgba(108, 117, 125, 1);
+    --highlight: rgba(255, 193, 7, 1);
+    --text-primary: rgba(33, 37, 41, 1);
+    --text-secondary: rgba(73, 80, 87, 1);
+    --card-background: rgba(255, 255, 255, 1);
+    --divider: rgba(222, 226, 230, 1);
+    --header-font-font-family: "Poppins", Helvetica;
+    --header-font-font-weight: "700";
+    --header-font-font-size: 48px;
+    --header-font-letter-spacing: 0px;
+    --header-font-line-height: 56px;
+    --header-font-font-style: normal;
+    --body-font-font-family: "Inter", Helvetica;
+    --body-font-font-weight: 400;
+    --body-font-font-size: 16px;
+    --body-font-letter-spacing: 0px;
+    --body-font-line-height: 24px;
+    --body-font-font-style: normal;
+    --subtitle-font-font-family: "Poppins", Helvetica;
+    --subtitle-font-font-weight: 600;
+    --subtitle-font-font-size: 24px;
+    --subtitle-font-letter-spacing: 0px;
+    --subtitle-font-line-height: 44px;
+    --subtitle-font-font-style: normal;
+}
+
+.header-text-wrapper {
+    color: var(--text-primary);
+    font-family: var(--header-font-font-family);
+    font-weight: var(--header-font-font-weight);
+    font-size: var(--header-font-font-size);
+    letter-spacing: var(--header-font-letter-spacing);
+    line-height: var(--header-font-line-height);
+    font-style: var(--header-font-font-style);
+}
+
+.body-text-wrapper {
+    color: var(--text-secondary);
+    font-family: var(--body-font-font-family);
+    font-weight: var(--body-font-font-weight);
+    font-size: var(--body-font-font-size);
+    letter-spacing: var(--body-font-letter-spacing);
+    line-height: var(--body-font-line-height);
+    font-style: var(--body-font-font-style);
+}
+
+.subtitle-text-wrapper {
+    color: var(--text-primary);
+    font-family: var(--subtitle-font-font-family);
+    font-weight: var(--subtitle-font-font-weight);
+    font-size: var(--subtitle-font-font-size);
+    letter-spacing: var(--subtitle-font-letter-spacing);
+    line-height: var(--subtitle-font-line-height);
+    font-style: var(--subtitle-font-font-style);
+}
+
+
+#header {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2% 0;
+}
+
+.search-wrapper {
+    display: flex;
+    box-sizing: border-box;
+    max-width: 720px;
+    height: 56px;
+    align-items: center;
+    position: relative;
+    background-color: #ece6f0;
+    border-radius: 28px;
+    overflow: hidden;
+    justify-content: space-between;
+    padding: 24px;
+}
+
+.search-wrapper input {
+    all: unset;
+    width: 100%;
+    color: var(--text-secondary);
+    font-family: var(--body-font-font-family);
+    font-weight: var(--body-font-font-weight);
+    font-size: var(--body-font-font-size);
+    letter-spacing: var(--body-font-letter-spacing);
+    line-height: var(--body-font-line-height);
+    font-style: var(--body-font-font-style);
+}
+
+.search-wrapper img {
+    cursor: pointer;
+}
+
+.content {
+    box-sizing: border-box;
+    padding: 4% 0;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: row;
+    gap: 10px;
+    height:100%;
+}
+
+.left-panel,
+.right-panel {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.left-panel canvas {
+    width: 85%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.right-panel {
+    max-height: 85%;
+    height: 100%;
+}
+
+.right-panel .table-container {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+#blueprints-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+}
+
+#blueprints-table th,
+#blueprints-table td {
+    border: 1px solid #B9B9B9;
+    padding: 12px;
+    text-align: left;
+}
+
+#blueprints-table thead {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+#blueprints-table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+#blueprints-table thead th:last-child {
+    border-top-right-radius: 12px;
+}
+
+#blueprints-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+#blueprints-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+.message {
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.message .line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
