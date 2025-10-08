@@ -2,14 +2,14 @@
 #### Procesos de desarrollo de software - PDSW
 #### Construción de un cliente 'grueso' con un API REST, HTML5, Javascript y CSS3. Parte II.
 
-
+### Integrantes
+- Laura Natalia Perilla Quintero - [Lanapequin](https://github.com/Lanapequin)
+- Santiago Botero Garcia - [LePeanutButter](https://github.com/LePeanutButter)
 
 ![mock2.png](img/mock2.png)
 
 1. Agregue al canvas de la página un manejador de eventos que permita capturar los 'clicks' realizados, bien sea a través del mouse, o a través de una pantalla táctil. Para esto, tenga en cuenta [este ejemplo de uso de los eventos de tipo 'PointerEvent'](https://mobiforge.com/design-development/html5-pointer-events-api-combining-touch-mouse-and-pen) (aún no soportado por todos los navegadores) para este fin. Recuerde que a diferencia del ejemplo anterior (donde el código JS está incrustado en la vista), se espera tener la inicialización de los manejadores de eventos correctamente modularizado, tal [como se muestra en este codepen](https://codepen.io/hcadavid/pen/BwWbrw).
-![img1.png](img/img1.png)
-![img2.png](img/img2.png)
-![img3.png](img/img3.png)
+
 2. Agregue lo que haga falta en sus módulos para que cuando se capturen nuevos puntos en el canvas abierto (si no se ha seleccionado un canvas NO se debe hacer nada):
     1. Se agregue el punto al final de la secuencia de puntos del canvas actual (sólo en la memoria de la aplicación, AÚN NO EN EL API!).
     2. Se repinte el dibujo.
@@ -38,8 +38,6 @@
    JSON.stringify(objetojavascript),
    ```
     * Como en este caso se tienen tres operaciones basadas en _callbacks_, y que las mismas requieren realizarse en un orden específico, tenga en cuenta cómo usar las promesas de JavaScript [mediante alguno de los ejemplos disponibles](http://codepen.io/hcadavid/pen/jrwdgK).
-![img10.png](img/img10.png)
-![img11.png](img/img11.png)
 
 4. Agregue el botón 'Create new blueprint', de manera que cuando se oprima:
     * Se borre el canvas actual.
@@ -65,4 +63,63 @@
 2. Diseño
     * Los callback usados al momento de cargar los planos y calcular los puntos de un autor NO hace uso de ciclos, sino de operaciones map/reduce.
     * Las operaciones de actualización y borrado hacen uso de promesas para garantizar que el cálculo del puntaje se realice sólo hasta cando se hayan actualizados los datos en el backend. Si se usan callbacks anidados se evalúa como R.
-	
+
+**Respuestas**
+1. Se creó una función llamada initCanvasEvents() que:
+   - Selecciona el canvas por su ID.
+   - Añade un listener para el evento pointerdown.
+   - Calcula la posición del click relativo al canvas.
+   - Dibuja un círculo rojo en la posición clickeada.
+   - Imprime las coordenadas en la consola.
+
+     ![img1.png](img/img1.png)
+
+   Se aseguro que los manejadores de eventos se inicialicen correctamente al cargar la página
+
+   ![img2.png](img/img2.png)
+
+   Se probó la aplicación en el navegador, verificando que:
+   - El canvas responde a los clics dibujando círculos rojos.
+   - Se muestran los planos disponibles en la tabla.
+   - Se registran los eventos en la consola.
+   - Se observa actividad en las herramientas de desarrollo del navegador.
+   
+   ![img3.png](img/img3.png)
+
+2. Se inicializa una variable que representa el blueprint actualmente seleccionado, esto garantiza que si no se ha seleccionado ningún plano, no se deben agregar puntos. 
+   ![img4.png](img/img4.png)
+
+   Se modifico la función initCanvasEvents(), se creo repaintBlueprint() para borrar y redibujar el canvas con los puntos y líneas del blueprint actual y setCurrentBlueprint(blueprint) para asignar el blueprint actual y llamar a repaintBlueprint() para mostrarlo.
+   ![img5.png](img/img5.png)
+
+   Se configura el repintado automático al redimensionar la ventana
+   ![img7.png](img/img7.png)
+
+   Cuando no se ha seleccionado un plano, si se presiona en el canvas, en la consola aparece "No blueprint selected.", lo que confirma que se intentó agregar un punto pero el sistema no lo permitió, cumpliendo con la lógica pedida.
+   ![img9.png](img/img9.png)
+
+   Si el usuario ya selecciono un plano, en el canvas se ven puntos conectados por líneas, y en la consola aparece un arreglo con las coordenadas de los puntos agregados, esto demuestra que:
+   - Los puntos se guardan en memoria.
+   - El dibujo se repinta automáticamente.
+   
+   ![img8.png](img/img8.png)
+
+3. Se creo la funcion saveOrUpdateBlueprint(), la cual se encarga de:
+   - Verificar si hay un blueprint seleccionado y si el autor está definido.
+   - Crea un objeto blueprintData con el nombre del plano, el autor y los puntos actuales.
+   - Realiza una petición PUT al API para actualizar el plano.
+   - Luego, realiza una petición GET para obtener todos los planos del autor.
+   - Finalmente, llama a updateBlueprintTable() para recalcular los puntos totales y actualizar la interfaz.
+
+   ![img10.png](img/img10.png)
+
+   Se creo la funcion updateBlueprintTable() con el fin de que se encargara de:
+   - Vaciar el contenido actual de la tabla de planos.
+   - Recorrer los planos obtenidos y agregar filas con su nombre, número de puntos y botón para abrirlos.
+   - Calcular el total de puntos del usuario usando .reduce() sobre los planos.
+   - Actualizar el valor en el elemento HTML con ID totalPoints.
+
+   ![img11.png](img/img11.png)
+
+   Con la interfaz en ejecución y luego de guardar el plano, se verifico que los datos si se estan actualizando en la tabla y en el número total de puntos.
+   ![img13.png](img/img13.png)
