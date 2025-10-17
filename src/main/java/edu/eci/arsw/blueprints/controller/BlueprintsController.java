@@ -119,4 +119,20 @@ public class BlueprintsController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
+
+    @DeleteMapping("/{author}/{bpname}")
+    public ResponseEntity<Void> deleteBlueprint(
+            @PathVariable("author") String author,
+            @PathVariable("bpname") String blueprintName) {
+        try {
+            blueprintsServices.deleteBlueprint(author, blueprintName);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (BlueprintNotFoundException e) {
+            logger.log(Level.WARNING, String.format(
+                    "Failed to delete blueprint: author='%s', name='%s'. Reason: %s",
+                    author, blueprintName, e.getMessage()
+            ));
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

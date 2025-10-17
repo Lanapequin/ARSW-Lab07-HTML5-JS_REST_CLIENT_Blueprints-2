@@ -1,4 +1,4 @@
-var apiclient = (function () {
+let apiclient = (function () {
     const baseUrl = "http://localhost:8080/blueprints";
 
     return {

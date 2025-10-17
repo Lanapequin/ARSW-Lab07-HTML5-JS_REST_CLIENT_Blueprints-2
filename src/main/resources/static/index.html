@@ -1,51 +1,40 @@
+<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
     <head>
         <title>Blueprints</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
-        <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="/webjars/jquery/3.5.0/jquery.min.js"></script>
+        <script src="/webjars/bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>
         <script src="js/apimock.js"></script>
         <script src="js/apiclient.js"></script>
         <script src="js/app.js"></script>
-        <script>
-            $(document).ready(function () {
-              function triggerBlueprintSearch() {
-                const author = $("#searchQuery").val().trim();
-                if (author) {
-                  app.updateBlueprints(author);
-                } else {
-                  alert("Please enter an author name.");
-                }
-              }
-
-              $(".search-icon").on("click", function () {
-                triggerBlueprintSearch();
-              });
-
-              $("#searchQuery").on("keydown", function (e) {
-                if (e.key === "Enter") {
-                  triggerBlueprintSearch();
-                }
-              });
-            });
-        </script>
-        <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="js/main.js"></script>
+        <link rel="stylesheet" href="/webjars/bootstrap/5.0.0-beta1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="styles/app.css">
 
     </head>
     <body>
+        <div id="newBlueprintModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <h3>Create New Blueprint</h3>
+                <label for="newName">Blueprint Name:</label>
+                <input type="text" id="newName" />
+                <button id="createBlueprintConfirm">Create</button>
+                <button id="cancelModalBtn">Cancel</button>
+            </div>
+        </div>
         <div id="header">
             <div class="header-text-wrapper">Blueprints</div>
             <div class="search-wrapper">
                 <input type="search" id="searchQuery" placeholder="Search...">
-                <img src="img/magnifying-glass-icon.png" width="18" height="18" class="search-icon">
+                <img alt="search-icon" src="img/magnifying-glass-icon.png" width="18" height="18" class="search-icon">
             </div>
         </div>
         <div class="content">
             <div class="message">
                 <div class="line">
-                    <img src="img/magnifying-glass-icon.png" width="32" height="32">
+                    <img alt="search-icon" src="img/magnifying-glass-icon.png" width="32" height="32">
                     <span id="user-message" class="header-text-wrapper">No user selected</span>
                 </div>
                 <span class="body-text-wrapper">Search for a username to view their blueprints and stats.</span>
@@ -53,7 +42,11 @@
             <div class="left-panel" style="display: none;">
                 <span id="currentBlueprintName" class="subtitle-text-wrapper">Current blueprint: None</span>
                 <canvas id="blueprintCanvas" style="border:1px solid #ccc;border-radius: 20px;"></canvas>
-                <button id="saveBlueprintBtn" class="btn btn-secondary" style="margin-top: 10px;">Save/Update</button>
+                <div>
+                    <button id="newBlueprintBtn" class="btn btn-secondary" style="margin-top: 10px;">New Blueprint</button>
+                    <button id="saveBlueprintBtn" class="btn btn-secondary" style="margin-top: 10px;">Save/Update</button>
+                    <button id="deleteBlueprintBtn" class="btn btn-secondary" style="margin-top: 10px;">Delete</button>
+                </div>
             </div>
             <div class="right-panel" style="display: none;">
                 <span class="subtitle-text-wrapper" id="authorName"></span>
@@ -72,20 +65,5 @@
                 <span id="totalPoints"></span>
             </div>
         </div>
-        <script>
-            window.onload = function() {
-                app.drawDefaultImage();
-                app.initCanvasEvents();
-
-                document.getElementById("saveBlueprintBtn").addEventListener("click", app.saveOrUpdateBlueprint);
-
-                window.addEventListener("resize", () => {
-                    const canvas = document.getElementById("blueprintCanvas");
-                    canvas.width = canvas.offsetWidth;
-                    canvas.height = canvas.offsetHeight;
-                    app.repaintBlueprint();
-                });
-            };
-        </script>
     </body>
 </html>

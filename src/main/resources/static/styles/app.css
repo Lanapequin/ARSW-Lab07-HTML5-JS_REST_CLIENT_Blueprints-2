@@ -147,7 +147,6 @@ a {
 
 .right-panel .table-container {
     display: flex;
-    flex: 1 1 auto;
     flex-direction: column;
     min-height: 0;
     overflow-y: auto;
@@ -200,4 +199,76 @@ a {
     flex-direction: row;
     align-items: center;
     gap: 20px;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    padding: 24px 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-content h3 {
+    font-family: var(--subtitle-font-font-family);
+    font-weight: var(--subtitle-font-font-weight);
+    font-size: 24px;
+    color: var(--text-primary);
+    margin: 0 0 8px;
+}
+
+.modal-content input[type="text"] {
+    padding: 10px 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--divider);
+    font-family: var(--body-font-font-family);
+    color: var(--text-primary);
+    background-color: var(--background);
+}
+
+.modal-content button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--body-font-font-family);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.modal-content .create-btn {
+    background-color: var(--primary-accent);
+    color: white;
+}
+
+.modal-content .create-btn:hover {
+    background-color: #2c6edb;
+}
+
+.modal-content .cancel-btn {
+    background-color: var(--secondary-accent);
+    color: white;
+}
+
+.modal-content .cancel-btn:hover {
+    background-color: #5a6268;
 }
