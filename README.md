@@ -123,3 +123,28 @@
 
    Con la interfaz en ejecución y luego de guardar el plano, se verifico que los datos si se estan actualizando en la tabla y en el número total de puntos.
    ![img13.png](img/img13.png)
+
+4. Se agregó el botón **Create new blueprint**, que permite al usuario crear un nuevo plano desde cero. Al hacer clic en este botón:
+
+   - Se borra el canvas actual utilizando la función `drawDefaultImage()`.
+   - Se muestra un modal emergente donde el usuario puede ingresar el nombre del nuevo blueprint.
+   - Al confirmar, se construye un objeto con el nombre, autor y un arreglo vacío de puntos.
+   - Se realiza una petición **POST** al recurso `/blueprints` para crear el nuevo plano en el backend.
+   - Luego, se hace una petición **GET** al recurso `/blueprints/{author}` para actualizar la lista de planos y el puntaje total del usuario.
+   - Finalmente, se actualiza la tabla de planos y el total de puntos usando `updateBlueprintTable()`.
+    
+    ![img14.png](img/img14.png)
+
+    ![img15.png](img/img15.png)
+
+5. Se implementó el botón **DELETE**, que permite eliminar un plano existente. Al presionar este botón:
+
+   - Se verifica que haya un blueprint seleccionado.
+   - Se solicita confirmación al usuario mediante un `confirm()` para evitar eliminaciones accidentales.
+   - Si el usuario confirma, se realiza una petición **DELETE** al recurso `/blueprints/{author}/{name}`.
+   - Luego, se hace una petición **GET** al recurso `/blueprints/{author}` para obtener la lista actualizada de planos.
+   - Se borra el canvas utilizando `drawDefaultImage()` y se actualiza la tabla de planos y el total de puntos con `updateBlueprintTable()`.
+
+    ![img16.png](img/img16.png)
+
+    ![img17.png](img/img17.png)
