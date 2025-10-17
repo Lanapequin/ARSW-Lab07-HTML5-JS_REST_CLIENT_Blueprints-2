@@ -210,8 +210,42 @@ let app = (function() {
         $("#totalPoints").text(`Total user points: ${totalPoints}`);
     }
 
+    function deleteBlueprint() {
+        if (!currentBlueprint || !author) {
+            alert("No blueprint is currently selected.");
+            return;
+        }
+
+        const blueprintName = currentBlueprint.name;
+        const confirmed = confirm(`Are you sure you want to delete "${blueprintName}"?`);
+
+        if (!confirmed) return;
+
+        $.ajax({
+            url: `http://localhost:8080/blueprints/${author}/${blueprintName}`,
+            type: 'DELETE'
+        }).then(() => {
+            currentBlueprint = null;
+            $("#currentBlueprintName").text("Current blueprint: None");
+            drawDefaultImage();
+
+            return $.get(`http://localhost:8080/blueprints/${author}`);
+        }).then((data) => {
+            blueprints = data.map(bp => ({
+                name: bp.name,
+                points: bp.points.length
+            }));
+
+            updateBlueprintTable();
+            alert(`Blueprint "${blueprintName}" deleted successfully.`);
+        }).catch(() => {
+            alert("Error deleting blueprint.");
+        });
+    }
+
     return {
         updateBlueprints: updateBlueprints,
+        deleteBlueprint: deleteBlueprint,
         drawDefaultImage: drawDefaultImage,
         drawBlueprint: drawBlueprint,
         initCanvasEvents: initCanvasEvents,
