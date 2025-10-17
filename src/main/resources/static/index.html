@@ -53,6 +53,7 @@
             <div class="left-panel" style="display: none;">
                 <span id="currentBlueprintName" class="subtitle-text-wrapper">Current blueprint: None</span>
                 <canvas id="blueprintCanvas" style="border:1px solid #ccc;border-radius: 20px;"></canvas>
+                <button id="saveBlueprintBtn" class="btn btn-secondary" style="margin-top: 10px;">Save/Update</button>
             </div>
             <div class="right-panel" style="display: none;">
                 <span class="subtitle-text-wrapper" id="authorName"></span>
@@ -71,5 +72,20 @@
                 <span id="totalPoints"></span>
             </div>
         </div>
+        <script>
+            window.onload = function() {
+                app.drawDefaultImage();
+                app.initCanvasEvents();
+
+                document.getElementById("saveBlueprintBtn").addEventListener("click", app.saveOrUpdateBlueprint);
+
+                window.addEventListener("resize", () => {
+                    const canvas = document.getElementById("blueprintCanvas");
+                    canvas.width = canvas.offsetWidth;
+                    canvas.height = canvas.offsetHeight;
+                    app.repaintBlueprint();
+                });
+            };
+        </script>
     </body>
 </html>
