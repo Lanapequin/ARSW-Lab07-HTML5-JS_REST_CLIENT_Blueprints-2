@@ -1,13 +1,13 @@
-var app = (function() {
-    var author = '';
-    var blueprints = [];
-    var api = apiclient;
-    var currentBlueprint = null;
+let app = (function() {
+    let author = '';
+    let blueprints = [];
+    let api = apiclient;
+    let currentBlueprint = null;
 
     function drawDefaultImage() {
-        var canvas = document.getElementById("blueprintCanvas");
-        var ctx = canvas.getContext("2d");
-        var img = new Image();
+        let canvas = document.getElementById("blueprintCanvas");
+        let ctx = canvas.getContext("2d");
+        let img = new Image();
         img.onload = function () {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -59,7 +59,7 @@ var app = (function() {
                 )
             })
 
-            var totalPoints = blueprints.reduce(function (acc, bp) {
+            let totalPoints = blueprints.reduce(function (acc, bp) {
                 return acc + bp.points;
             }, 0);
 
@@ -88,7 +88,11 @@ var app = (function() {
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
 
-            addPointToCurrentBlueprint(x, y);
+            if (event.button === 2) {
+                removeNearestPoint(x, y);
+            } else {
+                addPointToCurrentBlueprint(x, y);
+            }
         });
     }
 
@@ -134,6 +138,27 @@ var app = (function() {
         repaintBlueprint();
     }
 
+    function removeNearestPoint(x, y) {
+        if (!currentBlueprint || currentBlueprint.points.length === 0) return;
+
+        let closestIndex = -1;
+        let minDistance = Infinity;
+
+        for (const [index, point] of currentBlueprint.points.entries()) {
+            const distance = Math.hypot(point.x - x, point.y - y);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestIndex = index;
+            }
+        }
+
+        const threshold = 10;
+        if (minDistance < threshold) {
+            currentBlueprint.points.splice(closestIndex, 1);
+            repaintBlueprint();
+        }
+    }
+
     function saveOrUpdateBlueprint() {
         if (!currentBlueprint || !author) {
             alert("No blueprint selected.");
@@ -169,7 +194,7 @@ var app = (function() {
     function updateBlueprintTable() {
         $("#blueprints-table tbody").empty();
 
-        blueprints.map(function (bp) {
+        for (const bp of blueprints) {
             $("#blueprints-table tbody").append(
                 `<tr>
                     <td class="body-text-wrapper">${bp.name}</td>
@@ -179,11 +204,12 @@ var app = (function() {
                     </td>
                  </tr>`
             );
-        });
+        };
 
         const totalPoints = blueprints.reduce((acc, bp) => acc + bp.points, 0);
         $("#totalPoints").text(`Total user points: ${totalPoints}`);
     }
+
     return {
         updateBlueprints: updateBlueprints,
         drawDefaultImage: drawDefaultImage,
